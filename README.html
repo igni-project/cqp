@@ -1,0 +1,140 @@
+<h1>Collision Query Protocol</h1>
+
+<p>CQP/March 2025; Igni Project, Draft 1</p>
+
+<p>This document is an informal draft. It may not be entirely unambiguous, grammatically correct or consistent. The document, as it stands, merely exists to assist development of a more refined document later on.</p>
+
+<h2>Table of Contents</h2>
+<ol>
+	<li>Terminology</li>
+	<li>Introduction</li>
+	<li>Requests</li>
+	<ol>
+		<li>Cast Point</li>
+		<li>Cast Ray</li>
+	</ol>
+	<li>Authors Notes</li>
+</ol>
+
+<h2>1. Terminology</h2>
+
+<p>This section defines various words and abbreviations used throughout this document.</p>
+
+<b>Float</b>
+- Floating-point integer; a binary format that supports rational values
+
+<b>Hitbox</b>
+- Invisible object, of any shape, used for collision detection
+
+<b>Request</b>
+- Message sent from a client-to-server, further defined in section 2.
+
+
+<h2>2. Introduction</h2>
+<p>The Collision Query Protocol (CQP) is an application-layer communication protocol built to allow interactivity between processes in a 3-dimensional space.</p> 
+
+<h2>3. Requests</h2>
+
+<table>
+	<tr>
+		<th>Size (bytes)</th>
+		<th>Value</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>8-bit integer</td>
+		<td>Request code</td>
+	</tr>
+	<tr>
+		<td>0+</td>
+		<td>Raw data</td>
+		<td>Request data</td>
+	</tr>
+</table>
+
+<p>A request is a message sent from a client to a CQP server. Requests consist of an 8-bit request code followed by the requests data, which varies in size.</p>
+
+<p>Various types of requests are assigned unique numbers. From these numbers, a program reading a request may extrapolate the purpose of the request and structure of the requests contents. This number is referred to as a ‘request code’ and is 8 bits in size.</p>
+
+<h2>3.1. Cast Point</h2>
+
+<p>The ‘cast point’ request queries whether a point at a given location intersects a hitbox. This request has a code of 0.</p>
+
+<table>
+	<tr>
+		<th>Size (bytes)</th>
+		<th>Value</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>float</td>
+		<td>X location</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>float</td>
+		<td>Y location</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>float</td>
+		<td>Z location</td>
+	</tr>
+</table>
+
+<p>The ‘cast point’ request consists of 3 floating-point integers: the X, Y and Z location of the point to be cast, in that order.</p>
+
+<h2>3.2. Cast Ray</h2>
+
+<p>A ‘cast ray’ request queries whether a straight, infinite line of specified origin and vector intersects a hitbox. This request has a code of 1.</p>
+
+<table>
+	<tr>
+		<th>Size (bytes)</th>
+		<th>Value</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>float</td>
+		<td>X origin</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>float</td>
+		<td>Y origin</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>float</td>
+		<td>Z origin</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>float</td>
+		<td>X vector</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>float</td>
+		<td>Y vector</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>float</td>
+		<td>Z vector</td>
+	</tr>
+</table>
+
+<p>The ‘cast ray’ request consists of 2 sets of floating-point X-Y-Z coordinates: the origin of the ray, followed by its vector. Both sets of coordinates are 3-dimensional, and are ordered X first, Y second and Z third.</p>
+
+<h2>4. Authors Notes</h2>
+<p>Originally titled ‘Hitbox Update Protocol’, the protocol has recently gone through an overhaul that substantially simplified its design.</p>
+
+<p>Previously, a central server would hold all hitboxes and process all collisions between them. Clients would send requests to the server to modify hitboxes, in a similar fashion to the Scene Update Protocol.</p>
+
+<p>The redesign, however, places the tasks of storing hitboxes and computing collisions on the clients. All a CQP server does is forward each message it receives to all its clients.</p>
+
+
