@@ -6,17 +6,29 @@
 
 <h2>Table of Contents</h2>
 <ol>
-	<li>Terminology</li>
-	<li>Introduction</li>
-	<li>Requests</li>
+	<li>
+		<a href="#cqp-terminology">Terminology</a>
+	</li>
+	<li>
+		<a href="#cqp-introduction">Introduction</a>
+	</li>
+	<li>
+		<a href="#cqp-requests">Requests</a>
+	</li>
 	<ol>
-		<li>Cast Point</li>
-		<li>Cast Ray</li>
+		<li>
+			<a href="#cqp-cast-point">Cast Point</a>
+		</li>
+		<li>
+			<a href="#cqp-cast-ray">Cast Ray</a>
+		</li>
 	</ol>
-	<li>Authors Notes</li>
+	<li>
+		<a href="#cqp-authors-notes">Authors Notes</a>
+	</li>
 </ol>
 
-<h2>1. Terminology</h2>
+<h2 id="cqp-terminology">1. Terminology</h2>
 
 <p>This section defines various words and abbreviations used throughout this document.</p>
 
@@ -31,10 +43,10 @@
 	<dd>Message sent from a client-to-server, further defined in section 2</dd>
 </dl>
 
-<h2>2. Introduction</h2>
+<h2 id="cqp-introduction">2. Introduction</h2>
 <p>The Collision Query Protocol (CQP) is an application-layer communication protocol built to allow interactivity between processes in a 3-dimensional space.</p> 
 
-<h2>3. Requests</h2>
+<h2 id="cqp-requests">3. Requests</h2>
 
 <table>
 	<tr>
@@ -58,7 +70,7 @@
 
 <p>Various types of requests are assigned unique numbers. From these numbers, a program reading a request may extrapolate the purpose of the request and structure of the requests contents. This number is referred to as a ‘request code’ and is 8 bits in size.</p>
 
-<h2>3.1. Cast Point</h2>
+<h2 id="cqp-cast-point">3.1. Cast Point</h2>
 
 <p>The ‘cast point’ request queries whether a point at a given location intersects a hitbox. This request has a code of 0.</p>
 
@@ -87,7 +99,7 @@
 
 <p>The ‘cast point’ request consists of 3 floating-point integers: the X, Y and Z location of the point to be cast, in that order.</p>
 
-<h2>3.2. Cast Ray</h2>
+<h2 id="cqp-cast-ray">3.2. Cast Ray</h2>
 
 <p>A ‘cast ray’ request queries whether a straight, infinite line of specified origin and vector intersects a hitbox. This request has a code of 1.</p>
 
@@ -131,7 +143,7 @@
 
 <p>The ‘cast ray’ request consists of 2 sets of floating-point X-Y-Z coordinates: the origin of the ray, followed by its vector. Both sets of coordinates are 3-dimensional, and are ordered X first, Y second and Z third.</p>
 
-<h2>4. Authors Notes</h2>
+<h2 id="cqp-authors-notes">4. Authors Notes</h2>
 <p>Originally titled ‘Hitbox Update Protocol’, the protocol has recently gone through an overhaul that substantially simplified its design.</p>
 
 <p>Previously, a central server would hold all hitboxes and process all collisions between them. Clients would send requests to the server to modify hitboxes, in a similar fashion to the Scene Update Protocol.</p>
